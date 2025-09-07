@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Survey Aggregator Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Chosen Palette: Warm Neutrals with Blue Accent -->
+    <!-- Application Structure Plan: A single-page dashboard with a fixed sidebar for navigation and a main scrolling content area. The sidebar links smoothly scroll the user to the corresponding section (Overview, Surveys, Audience, Financials). This structure is chosen for its familiarity and efficiency, allowing users to quickly access different data views without page reloads, directly addressing the report's goal of a clean and intuitive interface for managing and analyzing survey data. -->
+    <!-- Visualization & Content Choices: 
+    - Overview KPIs: Goal: Inform. Method: HTML/Tailwind stat cards for immediate visibility. Interaction: None. Justification: Quick, high-level summary.
+    - Active Surveys: Goal: Organize. Method: Interactive HTML table with progress bars and status badges. Interaction: JS-based filtering by status and sorting. Justification: Allows for efficient management of multiple campaigns.
+    - Gender Distribution: Goal: Compare Proportions. Method: Chart.js Pie Chart. Interaction: Hover tooltips. Justification: Standard, easily understood viz for parts-of-a-whole data. Library: Chart.js.
+    - Age Range: Goal: Compare Distributions. Method: Chart.js Bar Chart. Interaction: Hover tooltips. Justification: Clearly shows respondent counts across discrete age brackets. Library: Chart.js.
+    - Spending Over Time: Goal: Show Change. Method: Chart.js Line Chart. Interaction: Hover tooltips, time-range filter. Justification: Ideal for tracking financial trends. Library: Chart.js.
+    - Cost Breakdown: Goal: Compare Proportions. Method: Chart.js Doughnut Chart. Interaction: Hover tooltips. Justification: Shows how budget is allocated across campaigns. Library: Chart.js.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 320px;
+        max-height: 400px;
+      }
+      @media (min-width: 768px) {
+        .chart-container {
+          height: 350px;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <div class="flex min-h-screen">
+      <aside
+        class="w-64 bg-white border-r border-slate-200 p-6 fixed h-full hidden lg:block"
+      >
+        <div class="flex items-center space-x-3 mb-10">
+          <h1 class="text-xl font-bold text-slate-900">
+            <img src="/logo-surveystream.png" alt="SurveyStream Logo" />
+          </h1>
+        </div>
+
+        <nav class="space-y-2">
+          <a
+            href="#overview"
+            class="flex items-center space-x-3 px-4 py-2 text-slate-600 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition-colors duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+              />
+            </svg>
+            <span>Overview</span>
+          </a>
+          <a
+            href="#active-surveys"
+            class="flex items-center space-x-3 px-4 py-2 text-slate-600 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition-colors duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>Active Surveys</span>
+          </a>
+          <a
+            href="#audience"
+            class="flex items-center space-x-3 px-4 py-2 text-slate-600 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition-colors duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
+              />
+            </svg>
+            <span>Audience</span>
+          </a>
+          <a
+            href="#financials"
+            class="flex items-center space-x-3 px-4 py-2 text-slate-600 rounded-lg hover:bg-slate-100 hover:text-blue-600 transition-colors duration-200"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.5 2.5 0 00-1.168-.217c-.22.061-.411.154-.567.267C8.21 8.78 8 9.366 8 10c0 .634.21 1.22.567 1.582.156.113.347.206.567.267v1.698c-.22.07-.412.163-.567.267C8.21 14.22 8 14.807 8 15.433V16h4v-1.567c0-.626-.21-1.219-.567-1.582-.155-.103-.346-.196-.567-.267v-1.698c.22-.07.411-.164.567-.267.357-.362.567-.948.567-1.582 0-.634-.21-1.22-.567-1.582zM10 2a8 8 0 100 16 8 8 0 000-16z"
+              />
+            </svg>
+            <span>Financials</span>
+          </a>
+        </nav>
+        <div class="absolute bottom-6 w-52">
+          <button
+            class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
+          >
+            Create New Survey +
+          </button>
+        </div>
+      </aside>
+
+      <main class="flex-1 lg:ml-64 p-4 md:p-8">
+        <header class="flex justify-between items-center mb-8">
+          <div>
+            <h1 class="text-3xl font-bold text-slate-900">Dashboard</h1>
+            <p class="text-slate-500">
+              Welcome back, here's a summary of your survey campaigns.
+            </p>
+          </div>
+          <div>
+            <ul class="flex items-center justify-center">
+              <li class="border-r border-gray-300 mr-2 pr-2">
+                <a href="/">Marketing</a>
+              </li>
+              <li class="border-r border-gray-300 mr-2 pr-2">
+                <a href="/account">User Account</a>
+              </li>
+              <li class="border-r border-gray-300 mr-2 pr-2">
+                <a href="/enterprise">SA</a>
+              </li>
+              <li>
+                <a href="/admin">Admin</a>
+              </li>
+            </ul>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-slate-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              <span
+                class="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-slate-50"
+              ></span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <img
+                src="https://placehold.co/40x40/E2E8F0/475569?text=SA"
+                class="rounded-full"
+                alt="Survey Aggregator Avatar"
+              />
+              <div>
+                <p class="font-semibold text-sm">Client</p>
+                <p class="text-xs text-slate-500">Aggregator</p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section id="overview" class="mb-10">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div
+              class="bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-medium text-slate-500">Total Surveys</p>
+                <span class="p-2 bg-blue-100 text-blue-600 rounded-lg">📊</span>
+              </div>
+              <p class="text-3xl font-bold mt-2">42</p>
+            </div>
+            <div
+              class="bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-medium text-slate-500">
+                  Total Responses
+                </p>
+                <span class="p-2 bg-green-100 text-green-600 rounded-lg"
+                  >👥</span
+                >
+              </div>
+              <p class="text-3xl font-bold mt-2">120,531</p>
+            </div>
+            <div
+              class="bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-medium text-slate-500">Total Spend</p>
+                <span class="p-2 bg-yellow-100 text-yellow-600 rounded-lg"
+                  >💰</span
+                >
+              </div>
+              <p class="text-3xl font-bold mt-2">$75,420</p>
+            </div>
+            <div
+              class="bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-sm font-medium text-slate-500">
+                  Account Balance
+                </p>
+                <span class="p-2 bg-indigo-100 text-indigo-600 rounded-lg"
+                  >💳</span
+                >
+              </div>
+              <p class="text-3xl font-bold mt-2">$24,580</p>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="active-surveys"
+          class="mb-10 bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+        >
+          <h2 class="text-xl font-bold mb-1">Active Surveys</h2>
+          <p class="text-slate-500 mb-6">
+            This section provides a dynamic, real-time table of all active and
+            upcoming surveys. It is easily filterable and sortable to help you
+            manage your campaigns efficiently.
+          </p>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex space-x-2">
+              <select
+                id="filter-status"
+                class="text-sm border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="all">All Statuses</option>
+                <option value="Active">Active</option>
+                <option value="Paused">Paused</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead class="text-xs text-slate-500 uppercase bg-slate-100">
+                <tr>
+                  <th scope="col" class="px-6 py-3 rounded-l-lg">
+                    Survey Name
+                  </th>
+                  <th scope="col" class="px-6 py-3">Status</th>
+                  <th scope="col" class="px-6 py-3">Progress</th>
+                  <th scope="col" class="px-6 py-3 text-center">
+                    Completion Rate
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-center">Avg. CPR</th>
+                  <th scope="col" class="px-6 py-3 rounded-r-lg text-center">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="surveys-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="audience" class="mb-10">
+          <h2 class="text-xl font-bold mb-1">
+            Audience Demographics & Insights
+          </h2>
+          <p class="text-slate-500 mb-6">
+            Visualizations are key to understanding your respondent pool. These
+            charts automatically update as responses come in, giving you a
+            real-time pulse on your audience.
+          </p>
+          <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div
+              class="lg:col-span-3 bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+            >
+              <h3 class="font-semibold mb-4">Age Range Distribution</h3>
+              <div class="chart-container h-80">
+                <canvas id="ageRangeChart"></canvas>
+              </div>
+            </div>
+            <div
+              class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+            >
+              <h3 class="font-semibold mb-4">Gender Distribution</h3>
+              <div class="chart-container h-80">
+                <canvas id="genderDistChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="financials">
+          <h2 class="text-xl font-bold mb-1">Financials</h2>
+          <p class="text-slate-500 mb-6">
+            Get a clear and transparent breakdown of all financial activity
+            related to your campaigns. Track spending, view transactions, and
+            understand where your budget is going.
+          </p>
+          <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div
+              class="lg:col-span-3 bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+            >
+              <h3 class="font-semibold mb-4">
+                Spending Over Time (Last 30 Days)
+              </h3>
+              <div class="chart-container h-80">
+                <canvas id="spendingChart"></canvas>
+              </div>
+            </div>
+            <div
+              class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-slate-100"
+            >
+              <h3 class="font-semibold mb-4">Cost Breakdown by Survey</h3>
+              <div class="chart-container h-80">
+                <canvas id="costBreakdownChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const mockData = {
+        surveys: [
+          {
+            id: 1,
+            name: 'Q3 Consumer Tech Habits',
+            status: 'Active',
+            progress: 850,
+            target: 1000,
+            completionRate: 92,
+            cpr: 1.5
+          },
+          {
+            id: 2,
+            name: 'Market Research for New App',
+            status: 'Active',
+            progress: 320,
+            target: 500,
+            completionRate: 88,
+            cpr: 2.1
+          },
+          {
+            id: 3,
+            name: 'Employee Satisfaction Survey',
+            status: 'Paused',
+            progress: 1500,
+            target: 2000,
+            completionRate: 95,
+            cpr: 0.75
+          },
+          {
+            id: 4,
+            name: 'Product Feedback for GadgetX',
+            status: 'Completed',
+            progress: 750,
+            target: 750,
+            completionRate: 98,
+            cpr: 1.8
+          },
+          {
+            id: 5,
+            name: 'Brand Awareness Study 2025',
+            status: 'Active',
+            progress: 120,
+            target: 2500,
+            completionRate: 85,
+            cpr: 2.5
+          },
+          {
+            id: 6,
+            name: 'UX Testing for Website Redesign',
+            status: 'Completed',
+            progress: 200,
+            target: 200,
+            completionRate: 99,
+            cpr: 3.0
+          }
+        ],
+        audience: {
+          ageRanges: {
+            '18-24': 25,
+            '25-34': 45,
+            '35-44': 30,
+            '45-54': 20,
+            '55+': 15
+          },
+          gender: { Male: 48, Female: 50, 'Non-binary': 2 }
+        },
+        financials: {
+          spending: [
+            120, 150, 200, 180, 250, 230, 300, 280, 320, 350, 400, 380, 420,
+            450, 500
+          ],
+          costBreakdown: {
+            'Q3 Consumer...': 45,
+            'Market Research...': 25,
+            'Employee Sat...': 15,
+            Other: 15
+          }
+        }
+      };
+
+      const statusColors = {
+        Active: { bg: 'bg-green-100', text: 'text-green-800' },
+        Paused: { bg: 'bg-yellow-100', text: 'text-yellow-800' },
+        Completed: { bg: 'bg-blue-100', text: 'text-blue-800' }
+      };
+
+      function renderTable(surveys) {
+        const tableBody = document.getElementById('surveys-table-body');
+        tableBody.innerHTML = '';
+        surveys.forEach((survey) => {
+          const percentage = Math.round(
+            (survey.progress / survey.target) * 100
+          );
+          const row = `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="px-6 py-4 font-semibold text-slate-900">${
+                          survey.name
+                        }</td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 text-xs font-medium rounded-full ${
+                              statusColors[survey.status].bg
+                            } ${statusColors[survey.status].text}">${
+            survey.status
+          }</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-full bg-slate-200 rounded-full h-2.5">
+                                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: ${percentage}%"></div>
+                                </div>
+                                <span class="text-xs font-semibold">${percentage}%</span>
+                            </div>
+                            <span class="text-xs text-slate-500">${survey.progress.toLocaleString()}/${survey.target.toLocaleString()}</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">${
+                          survey.completionRate
+                        }%</td>
+                        <td class="px-6 py-4 text-center">$${survey.cpr.toFixed(
+                          2
+                        )}</td>
+                        <td class="px-6 py-4 text-center">
+                             <button class="text-slate-500 hover:text-blue-600 p-1">...</button>
+                        </td>
+                    </tr>
+                `;
+          tableBody.innerHTML += row;
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderTable(mockData.surveys);
+
+        const filterStatus = document.getElementById('filter-status');
+        filterStatus.addEventListener('change', (e) => {
+          const status = e.target.value;
+          if (status === 'all') {
+            renderTable(mockData.surveys);
+          } else {
+            const filteredSurveys = mockData.surveys.filter(
+              (s) => s.status === status
+            );
+            renderTable(filteredSurveys);
+          }
+        });
+
+        const formatLabel = (label) => {
+          const maxLength = 16;
+          if (label.length <= maxLength) return label;
+          return label.substring(0, maxLength - 3) + '...';
+        };
+
+        new Chart(document.getElementById('ageRangeChart'), {
+          type: 'bar',
+          data: {
+            labels: Object.keys(mockData.audience.ageRanges),
+            datasets: [
+              {
+                label: 'Respondents',
+                data: Object.values(mockData.audience.ageRanges),
+                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                borderColor: 'rgba(59, 130, 246, 1)',
+                borderWidth: 1,
+                borderRadius: 4
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true } },
+            plugins: { legend: { display: false } }
+          }
+        });
+
+        new Chart(document.getElementById('genderDistChart'), {
+          type: 'pie',
+          data: {
+            labels: Object.keys(mockData.audience.gender),
+            datasets: [
+              {
+                data: Object.values(mockData.audience.gender),
+                backgroundColor: [
+                  'rgba(59, 130, 246, 0.8)',
+                  'rgba(239, 68, 68, 0.8)',
+                  'rgba(168, 85, 247, 0.8)'
+                ],
+                borderColor: ['#ffffff'],
+                borderWidth: 2
+              }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        new Chart(document.getElementById('spendingChart'), {
+          type: 'line',
+          data: {
+            labels: Array.from(
+              { length: mockData.financials.spending.length },
+              (_, i) => `Day ${i + 1}`
+            ),
+            datasets: [
+              {
+                label: 'Daily Spend',
+                data: mockData.financials.spending,
+                fill: true,
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                borderColor: 'rgba(59, 130, 246, 1)',
+                tension: 0.3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true } },
+            plugins: { legend: { display: false } }
+          }
+        });
+
+        new Chart(document.getElementById('costBreakdownChart'), {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(mockData.financials.costBreakdown).map(
+              formatLabel
+            ),
+            datasets: [
+              {
+                data: Object.values(mockData.financials.costBreakdown),
+                backgroundColor: [
+                  'rgba(59, 130, 246, 0.8)',
+                  'rgba(16, 185, 129, 0.8)',
+                  'rgba(245, 158, 11, 0.8)',
+                  'rgba(107, 114, 128, 0.8)'
+                ],
+                borderColor: ['#ffffff'],
+                borderWidth: 2
+              }
+            ]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      });
+    </script>
+  </body>
+</html>

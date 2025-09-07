@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Surveystream - Your Voice, Your Rewards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc; /* Tailwind slate-50 */
+      }
+      .hero-bg {
+        background: linear-gradient(
+          to bottom right,
+          #1f2937,
+          #4b5563
+        ); /* Tailwind slate-800 to slate-600 */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header & Navigation -->
+    <header class="bg-white sticky top-0 z-50 shadow-sm">
+      <nav
+        class="container mx-auto px-4 md:px-8 py-4 flex justify-between items-center"
+      >
+        <a href="#" class="flex items-center space-x-2">
+          <img
+            src="/logo-surveystream.png"
+            alt="Surveystream Logo"
+            class="w-44"
+          />
+        </a>
+        <div>
+          <ul class="flex items-center justify-center">
+            <li class="border-r border-gray-300 mr-2 pr-2">
+              <a href="/">Marketing</a>
+            </li>
+            <li class="border-r border-gray-300 mr-2 pr-2">
+              <a href="/account">User Account</a>
+            </li>
+            <li class="border-r border-gray-300 mr-2 pr-2">
+              <a href="/enterprise">SA</a>
+            </li>
+            <li>
+              <a href="/admin">Admin</a>
+            </li>
+          </ul>
+        </div>
+        <a
+          href="#cta"
+          class="bg-indigo-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-indigo-600 transition-colors duration-200"
+        >
+          Sign Up
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section class="hero-bg text-white py-20 md:py-32 px-4">
+        <div class="container mx-auto text-center">
+          <h1
+            class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-4"
+          >
+            Your Voice, Your Rewards.
+          </h1>
+          <p
+            class="text-lg sm:text-xl md:text-2xl mb-8 max-w-2xl mx-auto text-slate-300"
+          >
+            Get paid today for sharing your opinions. Start taking surveys and
+            earning rewards today!
+          </p>
+          <a
+            href="#cta"
+            class="bg-green-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-600 transition-colors duration-200"
+          >
+            Get Started Now
+          </a>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section id="features" class="py-20 px-4">
+        <div class="container mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-slate-800">
+              Why Choose Surveystream?
+            </h2>
+            <p class="text-slate-500 mt-2 text-lg">
+              We make it simple for everyone.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Feature Card 1 -->
+            <div
+              class="bg-white rounded-xl shadow-md p-6 text-center transition-transform transform hover:scale-105 duration-300 border border-slate-200"
+            >
+              <div
+                class="flex items-center justify-center h-16 w-16 mx-auto bg-yellow-100 rounded-full mb-4"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <!-- Calendar outline -->
+                  <rect
+                    x="3"
+                    y="4"
+                    width="18"
+                    height="18"
+                    rx="2"
+                    ry="2"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <!-- Calendar header line -->
+                  <line
+                    x1="16"
+                    y1="2"
+                    x2="16"
+                    y2="6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="8"
+                    y1="2"
+                    x2="8"
+                    y2="6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <!-- Calendar grid lines -->
+                  <line
+                    x1="3"
+                    y1="10"
+                    x2="21"
+                    y2="10"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <!-- Calendar dots/events -->
+                  <circle cx="8" cy="14" r="1" fill="currentColor" />
+                  <circle cx="12" cy="14" r="1" fill="currentColor" />
+                  <circle cx="16" cy="14" r="1" fill="currentColor" />
+                  <circle cx="8" cy="18" r="1" fill="currentColor" />
+                  <circle cx="12" cy="18" r="1" fill="currentColor" />
+                </svg>
+              </div>
+              <h3 class="font-bold text-xl text-slate-800 mb-2">
+                0 day payout
+              </h3>
+              <p class="text-slate-500">
+                Get paid with tokens for every survey you complete.
+              </p>
+            </div>
+
+            <!-- Feature Card 2 -->
+            <div
+              class="bg-white rounded-xl shadow-md p-6 text-center transition-transform transform hover:scale-105 duration-300 border border-slate-200"
+            >
+              <div
+                class="flex items-center justify-center h-16 w-16 mx-auto bg-indigo-100 text-indigo-500 rounded-full mb-4"
+              >
+                <svg
+                  class="h-8 w-8"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm-7 0a4 4 0 100 8h14a4 4 0 100-8H5z"
+                  />
+                </svg>
+              </div>
+              <h3 class="font-bold text-xl text-slate-800 mb-2">
+                Get paid in crypto currencies
+              </h3>
+              <p class="text-slate-500">
+                Get paid with tokens for every survey you complete.
+              </p>
+            </div>
+
+            <!-- Feature Card 3 -->
+            <div
+              class="bg-white rounded-xl shadow-md p-6 text-center transition-transform transform hover:scale-105 duration-300 border border-slate-200"
+            >
+              <div
+                class="flex items-center justify-center h-16 w-16 mx-auto bg-green-100 text-green-500 rounded-full mb-4"
+              >
+                <svg
+                  class="h-8 w-8"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h3 class="font-bold text-xl text-slate-800 mb-2">Fast & Easy</h3>
+              <p class="text-slate-500">
+                Our platform is intuitive and designed for a seamless user
+                experience. No more clunky forms!
+              </p>
+            </div>
+
+            <!-- Feature Card 4 -->
+            <div
+              class="bg-white rounded-xl shadow-md p-6 text-center transition-transform transform hover:scale-105 duration-300 border border-slate-200"
+            >
+              <div
+                class="flex items-center justify-center h-16 w-16 mx-auto bg-blue-100 text-blue-500 rounded-full mb-4"
+              >
+                <svg
+                  class="h-8 w-8"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+              <h3 class="font-bold text-xl text-slate-800 mb-2">
+                Impactful Opinions
+              </h3>
+              <p class="text-slate-500">
+                Your feedback helps shape products and services from leading
+                companies worldwide.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonial Section -->
+      <section class="bg-slate-100 py-20 px-4">
+        <div class="container mx-auto max-w-3xl text-center">
+          <blockquote
+            class="text-2xl sm:text-3xl italic text-slate-700 leading-snug"
+          >
+            "I've tried a dozen survey sites, but Surveystream is the only one
+            that's consistently fast, fair, and pays me on time. I can't
+            recommend it enough!"
+          </blockquote>
+          <div class="mt-6 font-semibold text-xl text-indigo-600">
+            — Jane D.
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section id="cta" class="bg-indigo-600 py-20 px-4">
+        <div class="container mx-auto text-center text-white">
+          <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+            Ready to Start Earning?
+          </h2>
+          <p class="text-lg mb-8 max-w-xl mx-auto">
+            Join thousands of satisfied users who are already making a
+            difference and earning rewards. Sign up now, it's free and easy!
+          </p>
+          <a
+            href="#"
+            class="bg-white text-indigo-600 font-bold py-3 px-10 rounded-full shadow-lg hover:bg-slate-200 transition-colors duration-200 text-lg"
+          >
+            Sign Up Now
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white py-8 px-4">
+      <div class="container mx-auto text-center text-sm text-slate-400">
+        &copy; 2025 Surveystream. All rights reserved.
+      </div>
+    </footer>
+  </body>
+</html>

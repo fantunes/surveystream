@@ -1,0 +1,6 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Dollar sign -->
+    <path
+        d="M12 2V22M17 5H9.5C8.11929 5 7 6.11929 7 7.5S8.11929 10 9.5 10H14.5C15.8807 10 17 11.1193 17 12.5S15.8807 15 14.5 15H7M17 19H9.5C8.11929 19 7 17.8807 7 16.5S8.11929 14 9.5 14H14.5C15.8807 14 17 12.8807 17 11.5S15.8807 9 14.5 9H7"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
