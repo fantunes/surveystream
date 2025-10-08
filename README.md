@@ -1,56 +1,36 @@
-The basic inspiration was Qmee as it's the only one I signed up to test.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-# User journeys
+## Getting Started
 
-This is usually very standards but here's a brief representation of what a user journey would be as a survey taker.
+First, run the development server:
 
-There are mainly three routes:
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-1. Sign up - with the fields required to create an account, verifying email account before taking any surveys
-2. Sign in - using email and password (or magic link via email) to log into the account
-3. Reset password - in the case user can't log in
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-This would be the same route for other users such as SAs. The difference would be the URL for each user.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-For Survey Takes:
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- Sign up: `/account/sign-up`
-- Sign in: `/account/sign-in`
-- Reset password: `/account/reset-password`
+## Learn More
 
-For SAs:
+To learn more about Next.js, take a look at the following resources:
 
-- Sign up: `/enterprise/account/sign-up`
-- Sign in: `/enterprise/account/sign-in`
-- Reset password: `/enterprise/account/reset-password`
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Admins would access via `/admin`
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-# Dashboards/Panels
+## Deploy on Vercel
 
-Based on the personas created, there are three panels/dashboards depending on the role:
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## Survey taker/crypto user
-
-This is where users mainly can take the survey but it's also used to see history of surveys taken, earnings, potential earnings, charts based on daily/survey earnings and other features or services offered. Also access to profile to edit/delete account.
-
-The options here are endless: the panel land page could be broken down into small widgets showing charts or earned amount and potential earnings, a chart with earnings per day with another metric showing the amount of surveys taken. In another row, more information about the token value compared to other crypto currencies. And finally on the bottom row, where the earnings can be spent with partnerships, etc.
-
-Questions for this panel:
-
-- is there any planning for cashback, games, deals?
-- refer a friend?
-
-## Survey Aggregators (SA)
-
-The focus here is to give the SA quick access to surveys, responses, total spent and account balance with access to active surveys and their status. Also charts about audience demographics and other insights.
-
-## Admin
-
-The admin panel is a company only access with overview of both SAs performance, general application performance and both general view of all surveys taken and created.
-
-# Marketing website
-
-Instead of putting together a wireframe, I ended up creating a base marketing website because it's just easier for me to do it. This is just an initial ideal and the sections can be added accordingly.
-
-The current content is just a placeholder. It would be good to have it broke down into more sections highlighting the advantages for each type of persona (i.e. survey management for SAs, crypto for savvy users, etc.)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
