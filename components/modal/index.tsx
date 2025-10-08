@@ -34,7 +34,7 @@ export function LoginModal() {
 
   const handleClose = () => {
     setIsOpen(false);
-    if (window.location.hash.includes('#sign')) {
+    if (window && window.location.hash.includes('#sign')) {
       window.history.pushState('', document.title, window.location.pathname);
     }
   };
