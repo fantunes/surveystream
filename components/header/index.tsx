@@ -12,19 +12,19 @@ export default function Header() {
         </a>
         <div className="hidden md:flex items-center space-x-8">
           <a
-            href="#surveys"
+            href="/surveys"
             className="text-gray-300 hover:text-blue-400 transition"
           >
             Surveys
           </a>
           <a
-            href="#rewards"
+            href="/rewards"
             className="text-gray-300 hover:text-blue-400 transition"
           >
             Rewards
           </a>
           <a
-            href="#about"
+            href="/about"
             className="text-gray-300 hover:text-blue-400 transition"
           >
             About Us

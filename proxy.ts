@@ -10,7 +10,7 @@ export default function proxy(request: NextRequest) {
         return NextResponse.next();
     }
 
-    if (request.nextUrl.pathname !== '/' && request.nextUrl.pathname !== '/faq') {
+    if (request.nextUrl.pathname !== '/' && request.nextUrl.pathname !== '/faq' && request.nextUrl.pathname !== '/rewards' && request.nextUrl.pathname !== '/about' && request.nextUrl.pathname !== '/surveys') {
         return NextResponse.next();
     }
 
