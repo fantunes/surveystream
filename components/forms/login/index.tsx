@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   DialogContent,
@@ -7,12 +9,21 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm({
   handleClose
 }: {
   handleClose: () => void;
 }) {
+  const router = useRouter();
+
+  const handleLogin = () => {
+    handleClose();
+    // Redirect to dashboard after successful login
+    router.push('/dashboard');
+  };
+
   return (
     <DialogContent className="sm:max-w-[425px] text-black">
       <DialogHeader>
@@ -46,7 +57,7 @@ export default function LoginForm({
         </div>
       </div>
       <div className="flex justify-end"></div>
-      <Button type="submit" onClick={handleClose}>
+      <Button type="submit" onClick={handleLogin}>
         Login
       </Button>
     </DialogContent>

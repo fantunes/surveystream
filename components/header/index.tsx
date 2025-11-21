@@ -12,6 +12,12 @@ export default function Header() {
         </a>
         <div className="hidden md:flex items-center space-x-8">
           <a
+            href="/"
+            className="text-gray-300 hover:text-blue-400 transition"
+          >
+            Home
+          </a>
+          <a
             href="/surveys"
             className="text-gray-300 hover:text-blue-400 transition"
           >
@@ -29,16 +35,22 @@ export default function Header() {
           >
             About Us
           </a>
+          <a
+            href="/faq"
+            className="text-gray-300 hover:text-blue-400 transition"
+          >
+            FAQ
+          </a>
         </div>
         <div className="flex items-center space-x-4">
           <a
-            href="#sign-in"
+            href="/dashboard"
             className="text-gray-300 hover:text-white transition"
           >
             Log In
           </a>
           <a
-            href="#sign-up"
+            href="/dashboard"
             className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold cta-button hover:bg-blue-700"
           >
             Sign Up
