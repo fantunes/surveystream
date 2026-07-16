@@ -212,11 +212,10 @@ export default function DashboardGamesPageContents() {
                   {platforms.map((platform) => (
                     <button
                       key={platform.name}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${
-                        platform.active
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${platform.active
                           ? 'bg-blue-500/20 text-blue-400'
                           : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
-                      }`}
+                        }`}
                     >
                       <span className="text-sm font-medium">{platform.name}</span>
                       <span className="text-xs">{platform.count}</span>

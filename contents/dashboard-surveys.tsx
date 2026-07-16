@@ -1,17 +1,23 @@
 'use client';
 
+import { MockSurvey } from '@/components/mock-survey';
 import { useAuth } from '@/lib/auth-context';
 import {
   CheckCircle,
   ChevronRight,
   Clock,
+  ExternalLink,
   Filter,
   TrendingUp,
+  X,
   Zap
 } from 'lucide-react';
+import { useState } from 'react';
 
 export default function DashboardSurveysPageContents() {
   const { user } = useAuth();
+  const [activeSurvey, setActiveSurvey] = useState<{ id: number; tokens: number; title: string } | null>(null);
+  const [completedTx, setCompletedTx] = useState<{ txHash: string; title: string } | null>(null);
 
   const availableSurveys = [
     {
@@ -93,6 +99,49 @@ export default function DashboardSurveysPageContents() {
 
   return (
     <main className="pt-24 pb-12 min-h-screen">
+      {/* Survey modal */}
+      {activeSurvey && (
+        <MockSurvey
+          onClose={() => setActiveSurvey(null)}
+          onComplete={(hash) => {
+            setCompletedTx({ txHash: hash, title: activeSurvey.title });
+            setActiveSurvey(null);
+          }}
+          userId={user?.id ?? 'guest'}
+          email={user?.email ?? 'guest@surveystream.io'}
+          tokens={activeSurvey.tokens}
+          surveyTitle={activeSurvey.title}
+          surveyId={activeSurvey.id.toString()}
+        />
+      )}
+
+      {/* Blockchain completion toast */}
+      {completedTx && (
+        <div className="fixed bottom-6 right-6 z-50 max-w-sm w-full bg-gray-800 border border-emerald-500/30 rounded-xl p-4 shadow-2xl flex items-start gap-3 animate-in slide-in-from-bottom-4 duration-300">
+          <CheckCircle className="text-emerald-400 h-5 w-5 mt-0.5 shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="text-white font-semibold text-sm mb-0.5">Survey recorded on blockchain!</p>
+            <p className="text-gray-400 text-xs mb-2 truncate">{completedTx.title}</p>
+            {completedTx.txHash && (
+              <a
+                href={completedTx.txHash.startsWith('0xmock') ? `https://amoy.polygonscan.com/tx/0x0000000000000000000000000000000000000000` : `https://amoy.polygonscan.com/tx/${completedTx.txHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 text-xs font-medium transition-colors"
+              >
+                View on PolygonScan <ExternalLink size={11} />
+              </a>
+            )}
+          </div>
+          <button
+            onClick={() => setCompletedTx(null)}
+            className="text-gray-500 hover:text-white transition-colors"
+            aria-label="Dismiss"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mb-8">
@@ -159,11 +208,10 @@ export default function DashboardSurveysPageContents() {
                   {categories.map((category) => (
                     <button
                       key={category.name}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${
-                        category.active
-                          ? 'bg-blue-500/20 text-blue-400'
-                          : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
-                      }`}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${category.active
+                        ? 'bg-blue-500/20 text-blue-400'
+                        : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
+                        }`}
                     >
                       <span className="text-sm font-medium">{category.name}</span>
                       <span className="text-xs">{category.count}</span>
@@ -242,7 +290,11 @@ export default function DashboardSurveysPageContents() {
                         </div>
                         <div className="text-xs text-gray-400">Tokens</div>
                       </div>
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                      <button
+                        onClick={() => setActiveSurvey({ id: survey.id, tokens: survey.tokens, title: survey.title })}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2"
+                        id={`start-survey-${survey.id}`}
+                      >
                         Start
                         <ChevronRight className="h-4 w-4" />
                       </button>

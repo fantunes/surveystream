@@ -7,9 +7,9 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useAuth } from '@/lib/auth-context';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function LoginForm({
   handleClose
@@ -17,49 +17,71 @@ export default function LoginForm({
   handleClose: () => void;
 }) {
   const router = useRouter();
+  const { login, isAuthenticated } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    handleClose();
-    // Redirect to dashboard after successful login
-    router.push('/dashboard');
+  useEffect(() => {
+    if (isAuthenticated) {
+      handleClose();
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, handleClose, router]);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim() && password.trim()) {
+      login(email.trim(), password.trim());
+    }
   };
 
   return (
-    <DialogContent className="sm:max-w-[425px] text-black">
+    <DialogContent className="sm:max-w-[425px] text-white bg-gray-900 border border-white/10">
       <DialogHeader>
-        <DialogTitle>Login to SurveyStream</DialogTitle>
-        <DialogDescription>
-          Enter your credentials to access your account.
+        <DialogTitle className="text-xl font-bold text-white">Sign In / Register</DialogTitle>
+        <DialogDescription className="text-gray-400">
+          Enter any email and password to log in. They will be saved in your session.
         </DialogDescription>
       </DialogHeader>
-      <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="email" className="text-right">
-            Email
-          </Label>
-          <Input
-            id="email"
+      <form onSubmit={handleLogin} className="grid gap-4 py-6">
+        <div className="grid gap-2">
+          <label htmlFor="email-input" className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Email Address
+          </label>
+          <input
+            id="email-input"
             type="email"
-            defaultValue="user@example.com"
-            className="col-span-3"
+            required
+            placeholder="name@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 rounded-xl border border-white/10 bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all text-sm"
           />
         </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="password" className="text-right">
+
+        <div className="grid gap-2">
+          <label htmlFor="password-input" className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
             Password
-          </Label>
-          <Input
-            id="password"
+          </label>
+          <input
+            id="password-input"
             type="password"
-            defaultValue="password"
-            className="col-span-3"
+            required
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-3 rounded-xl border border-white/10 bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all text-sm"
           />
         </div>
-      </div>
-      <div className="flex justify-end"></div>
-      <Button type="submit" onClick={handleLogin}>
-        Login
-      </Button>
+
+        <Button
+          type="submit"
+          disabled={!email.trim() || !password.trim()}
+          className="w-full h-12 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-200 mt-2 disabled:opacity-40"
+        >
+          Sign In
+        </Button>
+      </form>
     </DialogContent>
   );
 }

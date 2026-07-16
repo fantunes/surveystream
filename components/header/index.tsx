@@ -1,3 +1,4 @@
+
 export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-effect bg-gray-600">
@@ -44,13 +45,13 @@ export default function Header() {
         </div>
         <div className="flex items-center space-x-4">
           <a
-            href="/dashboard"
+            href="#sign-in"
             className="text-gray-300 hover:text-white transition"
           >
             Log In
           </a>
           <a
-            href="/dashboard"
+            href="#sign-up"
             className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold cta-button hover:bg-blue-700"
           >
             Sign Up

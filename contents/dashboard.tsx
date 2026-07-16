@@ -1,17 +1,22 @@
 'use client';
 
+import { MockSurvey } from '@/components/mock-survey';
 import {
   Award,
   CheckCircle,
   ChevronRight,
   Clock,
   DollarSign,
+  ExternalLink,
   Gamepad2,
   Gift,
   TrendingUp,
+  X,
   Zap
 } from 'lucide-react';
+import { useAuth } from '@/lib/auth-context';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import {
   Area,
   AreaChart,
@@ -28,8 +33,12 @@ import {
 } from 'recharts';
 
 export default function DashboardPageContents() {
+  const { user } = useAuth();
+  const [activeSurvey, setActiveSurvey] = useState<{ id: number; tokens: number; title: string } | null>(null);
+  const [completedTx, setCompletedTx] = useState<{ txHash: string; title: string } | null>(null);
+
   // Mock user data
-  const userData = {
+  const [userData, setUserData] = useState({
     name: 'Sarah Johnson',
     email: 'sarah.j@example.com',
     totalTokens: 3450,
@@ -38,6 +47,28 @@ export default function DashboardPageContents() {
     loginStreak: 5,
     level: 'Silver',
     nextLevelTokens: 5000
+  });
+
+  useEffect(() => {
+    if (user) {
+      setUserData(prev => ({
+        ...prev,
+        name: user.name,
+        email: user.email
+      }));
+    }
+  }, [user]);
+
+  const handleSurveyComplete = (txHash: string) => {
+    if (activeSurvey) {
+      setUserData(prev => ({
+        ...prev,
+        totalTokens: prev.totalTokens + activeSurvey.tokens,
+        completedSurveys: prev.completedSurveys + 1
+      }));
+      setCompletedTx({ txHash, title: activeSurvey.title });
+    }
+    setActiveSurvey(null);
   };
 
   const recentActivity = [
@@ -170,6 +201,45 @@ export default function DashboardPageContents() {
 
   return (
     <main className="pt-24 pb-12 min-h-screen">
+      {activeSurvey && (
+        <MockSurvey
+          onClose={() => setActiveSurvey(null)}
+          onComplete={handleSurveyComplete}
+          userId="sarah-123"
+          email={userData.email}
+          tokens={activeSurvey.tokens}
+          surveyTitle={activeSurvey.title}
+          surveyId={activeSurvey.id.toString()}
+        />
+      )}
+
+      {/* Blockchain completion toast */}
+      {completedTx && (
+        <div className="fixed bottom-6 right-6 z-50 max-w-sm w-full bg-gray-800 border border-emerald-500/30 rounded-xl p-4 shadow-2xl flex items-start gap-3 animate-in slide-in-from-bottom-4 duration-300">
+          <CheckCircle className="text-emerald-400 h-5 w-5 mt-0.5 shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="text-white font-semibold text-sm mb-0.5">Survey recorded on blockchain!</p>
+            <p className="text-gray-400 text-xs mb-2 truncate">{completedTx.title}</p>
+            {completedTx.txHash && (
+              <a
+                href={completedTx.txHash.startsWith('0xmock') ? `https://amoy.polygonscan.com/tx/0x0000000000000000000000000000000000000000` : `https://amoy.polygonscan.com/tx/${completedTx.txHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 text-xs font-medium transition-colors"
+              >
+                View on PolygonScan <ExternalLink size={11} />
+              </a>
+            )}
+          </div>
+          <button
+            onClick={() => setCompletedTx(null)}
+            className="text-gray-500 hover:text-white transition-colors"
+            aria-label="Dismiss"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
       <div className="container mx-auto px-6">
         {/* Welcome Header */}
         <div className="mb-8">
@@ -274,8 +344,8 @@ export default function DashboardPageContents() {
               <AreaChart data={earningsData}>
                 <defs>
                   <linearGradient id="colorTokens" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis
@@ -627,62 +697,66 @@ export default function DashboardPageContents() {
                 </Link>
               </div>
 
-            <div className="space-y-4">
-              {availableSurveys.map((survey) => (
-                <div
-                  key={survey.id}
-                  className="glass-effect p-6 rounded-xl hover:border-blue-500/50 transition-all duration-300 group"
-                >
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold uppercase">
-                          {survey.category}
-                        </span>
-                        {survey.badge && (
-                          <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">
-                            {survey.badge}
+              <div className="space-y-4">
+                {availableSurveys.map((survey) => (
+                  <div
+                    key={survey.id}
+                    className="glass-effect p-6 rounded-xl hover:border-blue-500/50 transition-all duration-300 group"
+                  >
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold uppercase">
+                            {survey.category}
                           </span>
-                        )}
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors">
-                        {survey.title}
-                      </h3>
-                      <div className="flex items-center gap-4 text-sm text-gray-400">
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-4 w-4" />
-                          {survey.duration}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <TrendingUp className="h-4 w-4" />
-                          {survey.difficulty}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-blue-400">
-                          {survey.tokens}
+                          {survey.badge && (
+                            <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-semibold">
+                              {survey.badge}
+                            </span>
+                          )}
                         </div>
-                        <div className="text-xs text-gray-400">Tokens</div>
+                        <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                          {survey.title}
+                        </h3>
+                        <div className="flex items-center gap-4 text-sm text-gray-400">
+                          <span className="flex items-center gap-1">
+                            <Clock className="h-4 w-4" />
+                            {survey.duration}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <TrendingUp className="h-4 w-4" />
+                            {survey.difficulty}
+                          </span>
+                        </div>
                       </div>
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105">
-                        Start
-                      </button>
+                      <div className="flex items-center gap-4">
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-blue-400">
+                            {survey.tokens}
+                          </div>
+                          <div className="text-xs text-gray-400">Tokens</div>
+                        </div>
+                        <button
+                          onClick={() => setActiveSurvey({ id: survey.id, tokens: survey.tokens, title: survey.title })}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
+                          id={`dashboard-start-survey-${survey.id}`}
+                        >
+                          Start
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
 
-            <div className="text-center">
-              <Link
-                href="/dashboard/surveys"
-                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-lg font-bold transition-all duration-300 hover:scale-105"
-              >
-                Browse All Surveys
-              </Link>
-            </div>
+              <div className="text-center">
+                <Link
+                  href="/dashboard/surveys"
+                  className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-lg font-bold transition-all duration-300 hover:scale-105"
+                >
+                  Browse All Surveys
+                </Link>
+              </div>
             </div>
           </div>
 

@@ -1,6 +1,7 @@
+'use client'
+
 import {
   CheckCircle,
-  ChevronRight,
   Clock,
   DollarSign,
   Globe,
@@ -24,7 +25,7 @@ export default function SurveysPageContents() {
           </span>
         </h1>
         <p className="mt-6 text-lg text-gray-400 max-w-2xl mx-auto">
-          Take part in surveys that matter. Your opinions help shape the products and services 
+          Take part in surveys that matter. Your opinions help shape the products and services
           you use every day, while you earn tokens that convert to real cash and rewards.
         </p>
         <a
@@ -52,7 +53,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-4">1. Find Your Match</h3>
               <p className="text-gray-400">
-                Browse surveys tailored to your interests and demographics. 
+                Browse surveys tailored to your interests and demographics.
                 We match you with relevant opportunities.
               </p>
             </div>
@@ -63,7 +64,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-4">2. Take the Survey</h3>
               <p className="text-gray-400">
-                Answer questions honestly about your experiences, preferences, 
+                Answer questions honestly about your experiences, preferences,
                 and opinions. Most surveys take 5-30 minutes.
               </p>
             </div>
@@ -74,7 +75,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-4">3. Get Verified</h3>
               <p className="text-gray-400">
-                Our quality checks ensure genuine responses. 
+                Our quality checks ensure genuine responses.
                 Completed surveys are verified within minutes.
               </p>
             </div>
@@ -85,7 +86,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-4">4. Earn Rewards</h3>
               <p className="text-gray-400">
-                Tokens are added to your account instantly. 
+                Tokens are added to your account instantly.
                 Redeem for cash, gift cards, or NFTs anytime.
               </p>
             </div>
@@ -110,7 +111,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Consumer Products</h3>
               <p className="text-gray-400 mb-4">
-                Share your thoughts on everyday products, from food and beverages 
+                Share your thoughts on everyday products, from food and beverages
                 to household items and personal care.
               </p>
               <div className="flex justify-between text-sm">
@@ -125,7 +126,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Technology</h3>
               <p className="text-gray-400 mb-4">
-                Help shape the future of apps, websites, gadgets, and digital services 
+                Help shape the future of apps, websites, gadgets, and digital services
                 with your tech insights and usage patterns.
               </p>
               <div className="flex justify-between text-sm">
@@ -140,7 +141,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Lifestyle & Entertainment</h3>
               <p className="text-gray-400 mb-4">
-                Tell us about your hobbies, entertainment preferences, travel habits, 
+                Tell us about your hobbies, entertainment preferences, travel habits,
                 and lifestyle choices.
               </p>
               <div className="flex justify-between text-sm">
@@ -155,7 +156,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Financial Services</h3>
               <p className="text-gray-400 mb-4">
-                Share your experiences with banking, insurance, investments, 
+                Share your experiences with banking, insurance, investments,
                 and other financial products and services.
               </p>
               <div className="flex justify-between text-sm">
@@ -170,7 +171,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Health & Wellness</h3>
               <p className="text-gray-400 mb-4">
-                Help improve healthcare services and wellness products by sharing 
+                Help improve healthcare services and wellness products by sharing
                 your health-related experiences and preferences.
               </p>
               <div className="flex justify-between text-sm">
@@ -185,7 +186,7 @@ export default function SurveysPageContents() {
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">Quick Polls</h3>
               <p className="text-gray-400 mb-4">
-                Short 1-3 minute surveys perfect for earning quick rewards 
+                Short 1-3 minute surveys perfect for earning quick rewards
                 during your spare time throughout the day.
               </p>
               <div className="flex justify-between text-sm">
@@ -231,7 +232,7 @@ export default function SurveysPageContents() {
                   <span className="block font-semibold text-blue-400">750 Tokens</span>
                 </div>
                 <a
-                  href="#sign-up"
+                  href="/dashboard/surveys"
                   className="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition"
                 >
                   Take Survey
@@ -261,7 +262,7 @@ export default function SurveysPageContents() {
                   <span className="block font-semibold text-blue-400">350 Tokens</span>
                 </div>
                 <a
-                  href="#sign-up"
+                  href="/dashboard/surveys"
                   className="bg-gray-700 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-gray-600 transition"
                 >
                   Take Survey
@@ -292,7 +293,7 @@ export default function SurveysPageContents() {
                   <span className="block font-semibold text-blue-400">700 Tokens</span>
                 </div>
                 <a
-                  href="#sign-up"
+                  href="/dashboard/surveys"
                   className="bg-gray-700 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-gray-600 transition"
                 >
                   Take Survey
@@ -322,7 +323,7 @@ export default function SurveysPageContents() {
                   <span className="block font-semibold text-blue-400">100 Tokens</span>
                 </div>
                 <a
-                  href="#sign-up"
+                  href="/dashboard/surveys"
                   className="bg-gray-700 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-gray-600 transition"
                 >
                   Take Survey
@@ -361,7 +362,7 @@ export default function SurveysPageContents() {
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">Be Honest & Consistent</h3>
                 <p className="text-gray-400">
-                  Always provide truthful answers. Our quality checks detect inconsistencies, 
+                  Always provide truthful answers. Our quality checks detect inconsistencies,
                   and honest responses lead to more survey invitations.
                 </p>
               </div>
@@ -374,7 +375,7 @@ export default function SurveysPageContents() {
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">Complete Your Profile</h3>
                 <p className="text-gray-400">
-                  A complete profile helps us match you with more relevant surveys, 
+                  A complete profile helps us match you with more relevant surveys,
                   increasing your earning opportunities.
                 </p>
               </div>
@@ -387,7 +388,7 @@ export default function SurveysPageContents() {
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">Check Daily</h3>
                 <p className="text-gray-400">
-                  New surveys are added regularly. Check back daily to find fresh 
+                  New surveys are added regularly. Check back daily to find fresh
                   opportunities and maximize your earnings.
                 </p>
               </div>
@@ -400,7 +401,7 @@ export default function SurveysPageContents() {
               <div>
                 <h3 className="text-lg font-semibold text-white mb-2">Take Your Time</h3>
                 <p className="text-gray-400">
-                  Don't rush through surveys. Thoughtful responses are valued more 
+                  Don't rush through surveys. Thoughtful responses are valued more
                   and lead to better survey matching in the future.
                 </p>
               </div>
@@ -416,7 +417,7 @@ export default function SurveysPageContents() {
             Ready to Share Your Voice?
           </h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join thousands of users who are earning real rewards by sharing their opinions. 
+            Join thousands of users who are earning real rewards by sharing their opinions.
             Your voice matters, and we'll prove it with every survey you complete.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
